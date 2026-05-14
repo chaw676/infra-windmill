@@ -1,6 +1,7 @@
 summary: ''
 display_name: setup_testing
 extra_perms:
+  g/test_users: false
   u/chaw676: true
 owners:
   - u/chaw676
