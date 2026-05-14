@@ -1,3 +1,3 @@
 def main(name: str = "CHAW"):
-    print(f"Hidey, {name}!")
-    return{"message": f"Hidey, {name}!"}
+    print(f"Ayyyy, {name}!")
+    return{"message": f"Ayyyy, {name}!"}
