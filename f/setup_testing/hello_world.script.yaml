@@ -1,0 +1,17 @@
+summary: hello_world
+description: ''
+lock: '!inline f/setup_testing/hello_world.script.lock'
+has_on_behalf_of: false
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  order:
+    - name
+  properties:
+    name:
+      type: string
+      description: ''
+      default: CHAW
+      originalType: string
+  required: []

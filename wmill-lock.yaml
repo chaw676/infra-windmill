@@ -1,2 +1,3 @@
 version: v2
-locks: {}
+locks:
+  f/setup_testing/hello_world: 18526c16740299be671318c5723ce2fe11887f64c0472395f9487b8203eecc4f
