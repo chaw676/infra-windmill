@@ -10,7 +10,11 @@ BASE="${BASE_INTERNAL_URL:-$WM_BASE_URL}"
 STATE_VAR="f/labmgr/tfstate"
 
 if ! command -v terraform >/dev/null 2>&1; then
-  curl -sSL "https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip" -o /tmp/tf.zip
+  case "$(uname -m)" in
+    aarch64|arm64) TF_ARCH=arm64 ;;
+    *)             TF_ARCH=amd64 ;;
+  esac
+  curl -sSL "https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_${TF_ARCH}.zip" -o /tmp/tf.zip
   mkdir -p "$HOME/bin"
   (cd "$HOME/bin" && unzip -qo /tmp/tf.zip)
   export PATH="$HOME/bin:$PATH"
