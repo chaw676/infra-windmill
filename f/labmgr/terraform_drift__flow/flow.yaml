@@ -1,0 +1,88 @@
+summary: Terraform drift detection + gated apply (test)
+description: Windmill port of ADO pipeline 307 (t_labManager - prd,
+  pipelines/terraform.yml), Azure stage only, with example resources (random_pet
+  + null_resource) so no cloud credentials or network-restricted state are
+  required. State is persisted in the Windmill variable f/labmgr/tfstate
+  (stand-in for the azurerm backend). Drift = terraform plan -detailed-exitcode
+  == 2, mirroring the ADO SucceededWithIssues path. Apply is approval-gated
+  (improvement over the ADO blind -auto-approve).
+value:
+  modules:
+    - id: tf
+      summary: terraform plan or gated apply
+      value:
+        type: branchone
+        branches:
+          - summary: apply (approval-gated)
+            modules:
+              - id: approval
+                summary: wait for approval before apply
+                value:
+                  type: rawscript
+                  content: '!inline wait_for_approval_before_apply.ts'
+                  input_transforms: {}
+                  lock: '!inline wait_for_approval_before_apply.lock'
+                  language: bun
+                suspend:
+                  required_events: 1
+                  timeout: 3600
+              - id: apply
+                summary: terraform apply
+                value:
+                  type: rawscript
+                  content: '!inline terraform_apply.sh'
+                  input_transforms:
+                    pet_count:
+                      type: javascript
+                      expr: flow_input.pet_count
+                  lock: ''
+                  language: bash
+            expr: flow_input.action == 'apply'
+            parallel: true
+            skip_failure: true
+        default:
+          - id: plan
+            summary: terraform plan + drift detection
+            value:
+              type: rawscript
+              content: '!inline terraform_plan_+_drift_detection.sh'
+              input_transforms:
+                pet_count:
+                  type: javascript
+                  expr: flow_input.pet_count
+              lock: ''
+              language: bash
+    - id: summary
+      summary: aggregate result / drift flag
+      value:
+        type: rawscript
+        content: '!inline aggregate_result_drift_flag.ts'
+        input_transforms:
+          action:
+            type: javascript
+            expr: flow_input.action
+          tf:
+            type: javascript
+            expr: results.tf
+        lock: '!inline aggregate_result_drift_flag.lock'
+        language: bun
+  concurrency_time_window_s: 0
+  concurrent_limit: 1
+has_on_behalf_of: false
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    action:
+      type: string
+      description: Mirrors the ADO 'Action' parameter
+      default: plan
+      enum:
+        - plan
+        - apply
+    pet_count:
+      type: integer
+      description: Desired random_pet count. Drift knob — apply with one value, then
+        plan with a different value to simulate drift.
+      default: 2
+  required: []

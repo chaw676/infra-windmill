@@ -1,0 +1,13 @@
+summary: Daily TF drift detection
+args:
+  action: plan
+  pet_count: 2
+cron_version: v2
+enabled: true
+has_permissioned_as: false
+is_flow: true
+no_flow_overlap: false
+schedule: 0 0 12 * * *
+script_path: f/labmgr/terraform_drift
+timezone: UTC
+ws_error_handler_muted: false

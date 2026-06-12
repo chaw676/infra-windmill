@@ -1,0 +1,6 @@
+summary: ''
+display_name: labmgr
+extra_perms:
+  u/quilleo: true
+owners:
+  - u/quilleo

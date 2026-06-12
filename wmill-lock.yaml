@@ -1,3 +1,8 @@
 version: v2
 locks:
+  f/labmgr/terraform_drift__flow+__flow_hash: 5f8967b4c5162296306f9aadf552fdddde16960f9de8dd5dc17ba86412bc5daa
+  f/labmgr/terraform_drift__flow+aggregate_result_drift_flag.ts: c34a9bcbedc8e400e30794a5e0f75004d4dc9c064a3db0825d46af9355e24925
+  f/labmgr/terraform_drift__flow+terraform_apply.sh: d89b2a7428e608f30cf5fd2a4560cac2f6c2473e7f7760f178c330a33784c4d2
+  f/labmgr/terraform_drift__flow+terraform_plan_+_drift_detection.sh: 6d4466e7f1ef277285d47e9efc07259d947f28d7e972bae0449213f694d959a2
+  f/labmgr/terraform_drift__flow+wait_for_approval_before_apply.ts: 6bbcae7e859d098a241a2fc91f9ea20ee1bbfc81a915b61afdaa1a0a4b7a7866
   f/setup_testing/hello_world: 52c095b62deb0686c8263991ac76a1091e5849bdf6a8fd528e5d3cd0b92024c6
